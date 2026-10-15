@@ -558,7 +558,6 @@ export default function App() {
             </div>
           </header>
 
-          {/* ── NAVEGACIÓN SECUNDARIA */}
 
           {/* NAVEGACIÓN SECUNDARIA */}
           {rol !== "estudiante" ? (

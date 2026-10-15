@@ -94,9 +94,8 @@ function fechaCorta(value: string): string {
   return date ? date.toLocaleDateString("es-SV") : "";
 }
 
-// ==========================================
 // COMPONENTES AUXILIARES (SUBCOMPONENTES)
-// ==========================================// Indicador visual de los pasos del formulario (1, 2, 3)
+// Indicador visual de los pasos del formulario (1, 2, 3)//
 function StepIndicator({
   step,
   complete,
@@ -142,9 +141,9 @@ function CardHeader({
   subtitle: string;
 }) {
   return (
-    <div className="mb-5 flex items-start gap-3">
+    <div className="mb-4 flex items-start gap-2.5">
       <div
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white"
         style={{ background: "#118AB2" }}
       >
         <Icon size={18} />
@@ -384,479 +383,482 @@ export function SolicitudTutoria({
       {/* Barra de navegación rápida */}
       <QuickAccessNav activeTab="solicitud" onNavigate={onNavigate} />
 
-      <div className="mx-auto w-full max-w-6xl space-y-1"/>
-      <div className="mb-6">
-        <h1 className="text-foreground" style={{ fontSize: "1.3rem" }}>
-          Registra tu solicitud de tutoría en este espacio
-        </h1>
-      </div>
+      <div className="mx-auto w-full max-w-[720px] px-3 sm:px-0">
+        <div className="mb-4 text-left">
+          <h1 className="text-foreground" style={{ fontSize: "1.4rem" }}>
+            Registra tu solicitud de tutoría en este espacio
+          </h1>
+        </div>
 
-      <div className="mr-auto w-full max-w-[850px] overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-        {/* ── CABECERA DEL FORMULARIO (con indicador de pasos) ── */}
-        <header className="border-b border-[rgba(31, 41, 55)] bg-rgba(24, 42, 58) px-5 pb-6 pt-7 text-foreground sm:px-7">
-          <div>
-            <h1 className="text-foreground" style={{ fontSize: "1.2rem" }}>
-              Nueva solicitud
-            </h1>
-            <p
-              className="mt-1 text-muted-foreground"
-              style={{ fontSize: "0.82rem" }}
-            >
-              Completa los pasos para agendar tu próxima tutoría
-            </p>
-          </div>
-          <div
-            className="mt-7 flex items-center gap-2 sm:gap-3"
-            aria-label="Progreso de la solicitud"
-          >
-            <StepIndicator
-              step={1}
-              complete={paso1Completo}
-              label="Materia y tutor"
-            />
-            {/* Línea más gruesa (2px) y color gris oscuro */}
-            <div className="h-0.5 flex-1 bg-slate-300" />
-            <StepIndicator
-              step={2}
-              complete={paso2Completo}
-              label="Fecha y hora"
-            />
-            {/* Línea más gruesa (2px) y color gris oscuro */}
-            <div className="h-0.5 flex-1 bg-slate-300" />
-            <StepIndicator
-              step={3}
-              complete={paso3Completo}
-              label="Confirmar y enviar"
-            />
-          </div>
-        </header>
-
-        <form onSubmit={handleSubmit} className="space-y-5 p-5 sm:p-7">
-          {/* Alerta de error general */}
-          {submitError && !confirmationOpen && (
+        <div className="mx-auto w-full max-w-[720px] overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+          {/* ── CABECERA DEL FORMULARIO (con indicador de pasos) ── */}
+          <header className="border-b border-border px-4 pb-4 pt-5 text-foreground sm:px-5">
+            <div>
+              <h1 className="text-foreground" style={{ fontSize: "1.2rem" }}>
+                Nueva solicitud
+              </h1>
+              <p
+                className="mt-1 text-muted-foreground"
+                style={{ fontSize: "0.82rem" }}
+              >
+                Completa los pasos para agendar tu próxima tutoría
+              </p>
+            </div>
             <div
-              role="alert"
-              className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-destructive"
-              style={{ fontSize: "0.85rem" }}
+              className="mt-5 flex items-center gap-2 sm:gap-3"
+              aria-label="Progreso de la solicitud"
             >
-              {submitError}
+              <StepIndicator
+                step={1}
+                complete={paso1Completo}
+                label="Materia y tutor"
+              />
+              {/* Línea más gruesa (2px) y color gris oscuro */}
+              <div className="h-0.5 flex-1 bg-slate-300" />
+              <StepIndicator
+                step={2}
+                complete={paso2Completo}
+                label="Fecha y hora"
+              />
+              {/* Línea más gruesa (2px) y color gris oscuro */}
+              <div className="h-0.5 flex-1 bg-slate-300" />
+              <StepIndicator
+                step={3}
+                complete={paso3Completo}
+                label="Confirmar y enviar"
+              />
             </div>
-          )}
+          </header>
 
-          {/* ── PASO 1: ASIGNATURA Y TUTOR ── */}
-          <section className="rounded-2xl border border-border p-5">
-            <CardHeader
-              step={1}
-              icon={UserRound}
-              title="Asignatura y tutor"
-              subtitle="Selecciona la asignatura y el tutor"
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              {/* Selector de Asignatura */}
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="asignatura"
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Asignatura <span className="text-brand-teal">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="asignatura"
-                    aria-label="Selecciona una asignatura"
-                    value={idAsignatura}
-                    onChange={(e) => handleAsignaturaChange(e.target.value)}
-                    disabled={cargandoAsignaturas}
-                    className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:opacity-50"
-                    style={
-                      {
-                        fontSize: "0.88rem",
-                        "--tw-ring-color": "#118ab2",
-                      } as React.CSSProperties
-                    }
-                  >
-                    <option value="">
-                      {cargandoAsignaturas
-                        ? "Cargando..."
-                        : "Selecciona una asignatura"}
-                    </option>
-                    {asignaturas.map((a) => (
-                      <option key={a.id} value={a.id}>
-                        {a.nombre}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
-                </div>
-                {errors.asignatura && (
-                  <p
-                    role="alert"
-                    className="text-destructive"
-                    style={{ fontSize: "0.78rem" }}
-                  >
-                    {errors.asignatura}
-                  </p>
-                )}
+          <form onSubmit={handleSubmit} className="space-y-4 p-4 sm:p-5">
+            {/* Alerta de error general */}
+            {submitError && !confirmationOpen && (
+              <div
+                role="alert"
+                className="rounded-xl border border-destructive/20 bg-destructive/10 px-4 py-3 text-destructive"
+                style={{ fontSize: "0.85rem" }}
+              >
+                {submitError}
               </div>
+            )}
 
-              {/* Selector de Tutor */}
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="tutor"
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Tutor <span className="text-brand-teal">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="tutor"
-                    aria-label="Selecciona un tutor"
-                    value={idTutor}
-                    onChange={(e) => handleTutorChange(e.target.value)}
-                    disabled={!idAsignatura || cargandoTutores}
-                    className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    style={
-                      {
-                        fontSize: "0.88rem",
-                        "--tw-ring-color": "#118ab2",
-                      } as React.CSSProperties
-                    }
+            {/* ── PASO 1: ASIGNATURA Y TUTOR ── */}
+            <section className="rounded-2xl border border-border p-4">
+              <CardHeader
+                step={1}
+                icon={UserRound}
+                title="Asignatura y tutor"
+                subtitle="Selecciona la asignatura y el tutor"
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                {/* Selector de Asignatura */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="asignatura"
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
                   >
-                    <option value="">
-                      {!idAsignatura
-                        ? "Primero selecciona una asignatura"
-                        : cargandoTutores
-                          ? "Cargando..."
-                          : "Selecciona un tutor"}
-                    </option>
-                    {tutoresDisponibles.map((t) => (
-                      <option key={t.id} value={t.id}>
-                        {t.nombreCompleto} ·{" "}
-                        {t.especialidad ?? "Tutor académico"}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
-                  />
-                </div>
-                {errors.tutor && (
-                  <p
-                    role="alert"
-                    className="text-destructive"
-                    style={{ fontSize: "0.78rem" }}
-                  >
-                    {errors.tutor}
-                  </p>
-                )}
-              </div>
-            </div>
-          </section>
-
-          {/* ── PASO 2: FECHA Y HORA ── */}
-          <section className="rounded-2xl border border-border p-5">
-            <CardHeader
-              step={2}
-              icon={CalendarDays}
-              title="Fecha y hora"
-              subtitle="Selecciona el horario de tu conveniencia"
-            />
-            <div className="grid gap-4 sm:grid-cols-2">
-              
-              {/* Selector de Fecha (Calendario) */}
-              <div className="space-y-1.5">
-                <label
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Fecha <span className="text-brand-teal">*</span>
-                </label>
-                <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
-                  <PopoverTrigger asChild>
-                    <button
-                      type="button"
-                      disabled={!idTutor || cargandoHorarios}
-                      aria-label="Selecciona una fecha"
-                      className="flex w-full items-center justify-between rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 text-left text-card-foreground outline-none transition-all hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
+                    Asignatura <span className="text-brand-teal">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="asignatura"
+                      aria-label="Selecciona una asignatura"
+                      value={idAsignatura}
+                      onChange={(e) => handleAsignaturaChange(e.target.value)}
+                      disabled={cargandoAsignaturas}
+                      className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:opacity-50"
                       style={
-                        { fontSize: "0.88rem" }}
-                    >
-                      <span
-                        className={
-                          fecha ? "text-foreground" : "text-muted-foreground"
-                        }
-                      >
-                        {fecha ? fechaLarga(fecha) : "Selecciona una fecha"}
-                      </span>
-                      <CalendarDays
-                        size={16}
-                        className="text-muted-foreground"
-                      />
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={fechaDesdeISO(fecha)}
-                      onSelect={handleFechaChange}
-                      disabled={(date) =>
-                        fechaLocal(date) < hoy ||
-                        !diasDisponibles.has(date.getDay())
+                        {
+                          fontSize: "0.88rem",
+                          "--tw-ring-color": "#118ab2",
+                        } as React.CSSProperties
                       }
-                      initialFocus
+                    >
+                      <option value="">
+                        {cargandoAsignaturas
+                          ? "Cargando..."
+                          : "Selecciona una asignatura"}
+                      </option>
+                      {asignaturas.map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {a.nombre}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      size={16}
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                     />
-                  </PopoverContent>
-                </Popover>
-                {errors.fecha && (
-                  <p
-                    role="alert"
-                    className="text-destructive"
-                    style={{ fontSize: "0.78rem" }}
-                  >
-                    {errors.fecha}
-                  </p>
-                )}
-                {idTutor && !cargandoHorarios && (
-                  <p
-                    className="text-muted-foreground"
-                    style={{ fontSize: "0.75rem" }}
-                  >
-                    Días que atiende este tutor: {diasTutor || "ninguno"}
-                  </p>
-                )}
-              </div>
+                  </div>
+                  {errors.asignatura && (
+                    <p
+                      role="alert"
+                      className="text-destructive"
+                      style={{ fontSize: "0.78rem" }}
+                    >
+                      {errors.asignatura}
+                    </p>
+                  )}
+                </div>
 
-              {/* Selector de Horario */}
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="horario"
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Horario <span className="text-brand-teal">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    id="horario"
-                    aria-label="Selecciona un horario"
-                    value={idHorario}
-                    onChange={(e) =>
-                      setIdHorario(e.target.value ? Number(e.target.value) : "")
-                    }
-                    disabled={
-                      !fecha || cargandoHorarios || horariosFecha.length === 0
-                    }
-                    className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50"
+                {/* Selector de Tutor */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="tutor"
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    Tutor <span className="text-brand-teal">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="tutor"
+                      aria-label="Selecciona un tutor"
+                      value={idTutor}
+                      onChange={(e) => handleTutorChange(e.target.value)}
+                      disabled={!idAsignatura || cargandoTutores}
+                      className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      style={
+                        {
+                          fontSize: "0.88rem",
+                          "--tw-ring-color": "#118ab2",
+                        } as React.CSSProperties
+                      }
+                    >
+                      <option value="">
+                        {!idAsignatura
+                          ? "Primero selecciona una asignatura"
+                          : cargandoTutores
+                            ? "Cargando..."
+                            : "Selecciona un tutor"}
+                      </option>
+                      {tutoresDisponibles.map((t) => (
+                        <option key={t.id} value={t.id}>
+                          {t.nombreCompleto} ·{" "}
+                          {t.especialidad ?? "Tutor académico"}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      size={16}
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    />
+                  </div>
+                  {errors.tutor && (
+                    <p
+                      role="alert"
+                      className="text-destructive"
+                      style={{ fontSize: "0.78rem" }}
+                    >
+                      {errors.tutor}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* ── PASO 2: FECHA Y HORA ── */}
+            <section className="rounded-2xl border border-border p-5">
+              <CardHeader
+                step={2}
+                icon={CalendarDays}
+                title="Fecha y hora"
+                subtitle="Selecciona el horario de tu conveniencia"
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                {/* Selector de Fecha (Calendario) */}
+                <div className="space-y-1.5">
+                  <label
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    Fecha <span className="text-brand-teal">*</span>
+                  </label>
+                  <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        disabled={!idTutor || cargandoHorarios}
+                        aria-label="Selecciona una fecha"
+                        className="flex w-full items-center justify-between rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 text-left text-card-foreground outline-none transition-all hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-50"
+                        style={{ fontSize: "0.88rem" }}
+                      >
+                        <span
+                          className={
+                            fecha ? "text-foreground" : "text-muted-foreground"
+                          }
+                        >
+                          {fecha ? fechaLarga(fecha) : "Selecciona una fecha"}
+                        </span>
+                        <CalendarDays
+                          size={16}
+                          className="text-muted-foreground"
+                        />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={fechaDesdeISO(fecha)}
+                        onSelect={handleFechaChange}
+                        disabled={(date) =>
+                          fechaLocal(date) < hoy ||
+                          !diasDisponibles.has(date.getDay())
+                        }
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {errors.fecha && (
+                    <p
+                      role="alert"
+                      className="text-destructive"
+                      style={{ fontSize: "0.78rem" }}
+                    >
+                      {errors.fecha}
+                    </p>
+                  )}
+                  {idTutor && !cargandoHorarios && (
+                    <p
+                      className="text-muted-foreground"
+                      style={{ fontSize: "0.75rem" }}
+                    >
+                      Días que atiende este tutor: {diasTutor || "ninguno"}
+                    </p>
+                  )}
+                </div>
+
+                {/* Selector de Horario */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="horario"
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    Horario <span className="text-brand-teal">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="horario"
+                      aria-label="Selecciona un horario"
+                      value={idHorario}
+                      onChange={(e) =>
+                        setIdHorario(
+                          e.target.value ? Number(e.target.value) : "",
+                        )
+                      }
+                      disabled={
+                        !fecha || cargandoHorarios || horariosFecha.length === 0
+                      }
+                      className="w-full appearance-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-2.5 pr-10 text-card-foreground outline-none transition-all focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      style={
+                        {
+                          fontSize: "0.88rem",
+                          "--tw-ring-color": "#118ab2",
+                        } as React.CSSProperties
+                      }
+                    >
+                      <option value="">
+                        {!fecha
+                          ? "Primero selecciona una fecha"
+                          : cargandoHorarios
+                            ? "Cargando..."
+                            : horariosFecha.length === 0
+                              ? "No hay bloques disponibles"
+                              : "Selecciona un horario"}
+                      </option>
+                      {horariosFecha.map((h) => (
+                        <option key={h.id} value={h.id}>
+                          {DIA_LABEL[h.diaSemana]} {formatHora(h.horaInicio)} –{" "}
+                          {formatHora(h.horaFin)}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown
+                      size={16}
+                      className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                    />
+                  </div>
+                  {errors.horario && (
+                    <p
+                      role="alert"
+                      className="text-destructive"
+                      style={{ fontSize: "0.78rem" }}
+                    >
+                      {errors.horario}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* ── PASO 3: DETALLE Y ARCHIVOS ── */}
+            <section className="rounded-2xl border border-border p-5">
+              <CardHeader
+                step={3}
+                icon={FileText}
+                title="Detalle de la solicitud"
+                subtitle="Cuéntanos cómo podemos ayudarte"
+              />
+              <div className="space-y-5">
+                {/* Descripción */}
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="descripcion"
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    Descripción de dificultades{" "}
+                    <span className="text-brand-teal">*</span>
+                  </label>
+                  <textarea
+                    id="descripcion"
+                    value={descripcion}
+                    maxLength={500}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    rows={4}
+                    placeholder="Describe con detalle los temas o conceptos con los que necesitas apoyo..."
+                    className="w-full resize-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-3 text-card-foreground outline-none transition-all placeholder:text-muted-foreground focus:ring-2"
                     style={
                       {
                         fontSize: "0.88rem",
                         "--tw-ring-color": "#118ab2",
                       } as React.CSSProperties
                     }
-                  >
-                    <option value="">
-                      {!fecha
-                        ? "Primero selecciona una fecha"
-                        : cargandoHorarios
-                          ? "Cargando..."
-                          : horariosFecha.length === 0
-                            ? "No hay bloques disponibles"
-                            : "Selecciona un horario"}
-                    </option>
-                    {horariosFecha.map((h) => (
-                      <option key={h.id} value={h.id}>
-                        {DIA_LABEL[h.diaSemana]} {formatHora(h.horaInicio)} –{" "}
-                        {formatHora(h.horaFin)}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                   />
-                </div>
-                {errors.horario && (
-                  <p
-                    role="alert"
-                    className="text-destructive"
-                    style={{ fontSize: "0.78rem" }}
-                  >
-                    {errors.horario}
-                  </p>
-                )}
-              </div>
-            </div>
-          </section>
-
-          {/* ── PASO 3: DETALLE Y ARCHIVOS ── */}
-          <section className="rounded-2xl border border-border p-5">
-            <CardHeader
-              step={3}
-              icon={FileText}
-              title="Detalle de la solicitud"
-              subtitle="Cuéntanos cómo podemos ayudarte"
-            />
-            <div className="space-y-5">
-              {/* Descripción */}
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="descripcion"
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Descripción de dificultades{" "}
-                  <span className="text-brand-teal">*</span>
-                </label>
-                <textarea
-                  id="descripcion"
-                  value={descripcion}
-                  maxLength={500}
-                  onChange={(e) => setDescripcion(e.target.value)}
-                  rows={4}
-                  placeholder="Describe con detalle los temas o conceptos con los que necesitas apoyo..."
-                  className="w-full resize-none rounded-xl border border-[#118ab2] bg-input-background px-4 py-3 text-card-foreground outline-none transition-all placeholder:text-muted-foreground focus:ring-2"
-                  style={
-                    {
-                      fontSize: "0.88rem",
-                      "--tw-ring-color": "#118ab2",
-                    } as React.CSSProperties
-                  }
-                />
-                <div className="flex justify-between gap-3">
-                  <span>
-                    {errors.descripcion && (
-                      <span
-                        role="alert"
-                        className="text-destructive"
-                        style={{ fontSize: "0.78rem" }}
-                      >
-                        {errors.descripcion}
-                      </span>
-                    )}
-                  </span>
-                  <span
-                    className="text-muted-foreground"
-                    style={{ fontSize: "0.75rem" }}
-                  >
-                    {descripcion.length}/500
-                  </span>
-                </div>
-              </div>
-
-              {/* Zona de carga de archivos (Drag & Drop) */}
-              <div className="space-y-1.5">
-                <label
-                  className="text-card-foreground"
-                  style={{ fontSize: "0.875rem" }}
-                >
-                  Documentos de apoyo{" "}
-                  <span
-                    className="text-muted-foreground"
-                    style={{ fontSize: "0.78rem" }}
-                  >
-                    (opcional)
-                  </span>
-                </label>
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ")
-                      fileInputRef.current?.click();
-                  }}
-                  onDragOver={(e) => {
-                    e.preventDefault();
-                    setDragging(true);
-                  }}
-                  onDragLeave={() => setDragging(false)}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed py-6 transition-all"
-                  style={{
-                    borderColor: dragging ? "#118ab2" : "var(--border)",
-                    background: dragging
-                      ? "rgba(17,138,178,0.06)"
-                      : "var(--input-background)",
-                  }}
-                >
-                  <Upload size={20} className="text-muted-foreground" />
-                  <p
-                    className="text-center text-muted-foreground"
-                    style={{ fontSize: "0.82rem" }}
-                  >
-                    Arrastra archivos aquí o{" "}
-                    <span className="text-brand-teal">haz clic para subir</span>
-                  </p>
-                  <p
-                    className="text-muted-foreground"
-                    style={{ fontSize: "0.73rem" }}
-                  >
-                    PDF, DOCX, XLSX · Máx. 25 MB por archivo
-                  </p>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    accept=".pdf,.doc,.docx,.xls,.xlsx"
-                    onChange={handleFileInput}
-                    className="hidden"
-                  />
-                </div>
-                {/* Lista de archivos subidos */}
-                {archivos.length > 0 && (
-                  <div className="space-y-1.5">
-                    {archivos.map((file, index) => (
-                      <div
-                        key={`${file.name}-${index}`}
-                        className="flex items-center gap-2 rounded-lg bg-secondary px-3 py-2"
-                      >
-                        <FileText
-                          size={14}
-                          className="shrink-0 text-muted-foreground"
-                        />
+                  <div className="flex justify-between gap-3">
+                    <span>
+                      {errors.descripcion && (
                         <span
-                          className="min-w-0 flex-1 truncate text-card-foreground"
-                          style={{ fontSize: "0.82rem" }}
+                          role="alert"
+                          className="text-destructive"
+                          style={{ fontSize: "0.78rem" }}
                         >
-                          {file.name}
+                          {errors.descripcion}
                         </span>
-                        <span
-                          className="shrink-0 text-muted-foreground"
-                          style={{ fontSize: "0.73rem" }}
-                        >
-                          {(file.size / 1024).toFixed(0)} KB
-                        </span>
-                        <button
-                          type="button"
-                          aria-label={`Eliminar ${file.name}`}
-                          onClick={() => removeFile(index)}
-                          className="text-muted-foreground transition-colors hover:text-destructive"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ))}
+                      )}
+                    </span>
+                    <span
+                      className="text-muted-foreground"
+                      style={{ fontSize: "0.75rem" }}
+                    >
+                      {descripcion.length}/500
+                    </span>
                   </div>
-                )}
-              </div>
-            </div>
-          </section>
+                </div>
 
-          {/* Botón de envío del formulario */}
-          <button
-            type="submit"
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#118AB2] py-3 text-white transition-all hover:opacity-90 active:scale-[0.99]"
-            style={{ background: "#118AB2" }}
-          >
-            Enviar
-          </button>
-        </form>
+                {/* Zona de carga de archivos (Drag & Drop) */}
+                <div className="space-y-1.5">
+                  <label
+                    className="text-card-foreground"
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    Documentos de apoyo{" "}
+                    <span
+                      className="text-muted-foreground"
+                      style={{ fontSize: "0.78rem" }}
+                    >
+                      (opcional)
+                    </span>
+                  </label>
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ")
+                        fileInputRef.current?.click();
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setDragging(true);
+                    }}
+                    onDragLeave={() => setDragging(false)}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border-2 border-dashed py-4 transition-all"
+                    style={{
+                      borderColor: dragging ? "#118ab2" : "var(--border)",
+                      background: dragging
+                        ? "rgba(17,138,178,0.06)"
+                        : "var(--input-background)",
+                    }}
+                  >
+                    <Upload size={20} className="text-muted-foreground" />
+                    <p
+                      className="text-center text-muted-foreground"
+                      style={{ fontSize: "0.82rem" }}
+                    >
+                      Arrastra archivos aquí o{" "}
+                      <span className="text-brand-teal">
+                        haz clic para subir
+                      </span>
+                    </p>
+                    <p
+                      className="text-muted-foreground"
+                      style={{ fontSize: "0.73rem" }}
+                    >
+                      PDF, DOCX, XLSX · Máx. 25 MB por archivo
+                    </p>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      multiple
+                      accept=".pdf,.doc,.docx,.xls,.xlsx"
+                      onChange={handleFileInput}
+                      className="hidden"
+                    />
+                  </div>
+                  {/* Lista de archivos subidos */}
+                  {archivos.length > 0 && (
+                    <div className="space-y-1.5">
+                      {archivos.map((file, index) => (
+                        <div
+                          key={`${file.name}-${index}`}
+                          className="flex items-center gap-2 rounded-lg bg-secondary px-3 py-2"
+                        >
+                          <FileText
+                            size={14}
+                            className="shrink-0 text-muted-foreground"
+                          />
+                          <span
+                            className="min-w-0 flex-1 truncate text-card-foreground"
+                            style={{ fontSize: "0.82rem" }}
+                          >
+                            {file.name}
+                          </span>
+                          <span
+                            className="shrink-0 text-muted-foreground"
+                            style={{ fontSize: "0.73rem" }}
+                          >
+                            {(file.size / 1024).toFixed(0)} KB
+                          </span>
+                          <button
+                            type="button"
+                            aria-label={`Eliminar ${file.name}`}
+                            onClick={() => removeFile(index)}
+                            className="text-muted-foreground transition-colors hover:text-destructive"
+                          >
+                            <X size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </section>
+
+            {/* Botón de envío del formulario */}
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#118AB2] py-2.5 text-sm text-white transition-all hover:opacity-90 active:scale-[0.99]"
+              style={{ background: "#118AB2" }}
+            >
+              Enviar
+            </button>
+          </form>
+        </div>
       </div>
 
       {/* ── DIÁLOGO DE CONFIRMACIÓN ── */}

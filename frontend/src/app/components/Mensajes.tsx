@@ -174,7 +174,7 @@ export function Mensajes({ idUsuario }: Props) {
         </aside>
 
         <section className="flex min-h-[520px] min-w-0 flex-col">
-          <div className="flex items-center gap-3 border-b border-border bg-card px-4 py-4 sm:px-5">
+          <div className="flex items-center gap-3 border-b border-border bg-card px-4 py-4 sm:px-0">
             <MessageCircle size={19} className="text-brand-teal" />
             <div>
               <p className="text-sm font-semibold text-foreground">
@@ -225,12 +225,19 @@ export function Mensajes({ idUsuario }: Props) {
                       <p className="whitespace-pre-wrap break-words text-sm">
                         {m.contenido}
                       </p>
+
                       <p
                         className={`mt-1 text-[0.68rem] ${
                           propio ? "text-white/75" : "text-muted-foreground"
                         }`}
                       >
-                        {new Date(m.fechaEnvio).toLocaleString("es-SV")}
+                        {new Date(m.fechaEnvio).toLocaleDateString("es-SV")}
+                        {", "}
+                        {new Date(m.fechaEnvio).toLocaleTimeString("es-SV", {
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
                       </p>
                     </div>
                   </div>
@@ -253,7 +260,7 @@ export function Mensajes({ idUsuario }: Props) {
                 disabled={contactoId === null || enviando}
                 rows={2}
                 placeholder="Escribe un mensaje…"
-                className="min-h-12 min-w-0 flex-1 resize-none rounded-xl border border-border bg-input-background px-3 py-3 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-ring sm:px-4"
+                className="min-h-12 min-w-0 flex-1 resize-none rounded-xl border border-[#118AB2] bg-input-background px-3 py-3 text-sm text-foreground outline-none transition focus:border-[#118AB2] focus:ring-3 focus:ring-[#118AB2]/40 sm:px-4"
               />
 
               <button

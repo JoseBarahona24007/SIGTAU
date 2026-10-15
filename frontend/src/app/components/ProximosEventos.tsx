@@ -101,9 +101,7 @@ function FechaEvento({ fecha }: { fecha: string }) {
       }}
     >
       <span className="text-xs font-semibold uppercase">
-        {date
-          .toLocaleDateString("es-SV", { month: "short" })
-          .replace(".", "")}
+        {date.toLocaleDateString("es-SV", { month: "short" }).replace(".", "")}
       </span>
 
       <strong
@@ -178,8 +176,7 @@ function TarjetaEvento({
 
             <span className="flex items-center gap-1.5">
               <Clock3 size={14} className="shrink-0" />
-              {formatHora(evento.horaInicio)} –{" "}
-              {formatHora(evento.horaFin)}
+              {formatHora(evento.horaInicio)} – {formatHora(evento.horaFin)}
             </span>
 
             <span className="flex items-center gap-1.5">
@@ -207,8 +204,7 @@ function TarjetaEvento({
               }}
               className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98] sm:flex-none"
               style={{
-                background:
-                  "linear-gradient(135deg, #1E3A8A, #3B82F6)",
+                background: "linear-gradient(135deg, #1E3A8A, #3B82F6)",
               }}
             >
               <ExternalLink size={15} />
@@ -221,9 +217,7 @@ function TarjetaEvento({
               disabled={cancelando}
               className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-red-300 px-3 py-2 text-sm font-medium text-red-500 transition-all hover:border-red-400 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-red-900/50 dark:hover:bg-red-950/20 sm:flex-none"
             >
-              {cancelando && (
-                <Loader2 size={15} className="animate-spin" />
-              )}
+              {cancelando && <Loader2 size={15} className="animate-spin" />}
               Cancelar
             </button>
           ) : null}
@@ -287,13 +281,10 @@ export function ProximosEventos({
 
   return (
     <div className="mx-auto w-full max-w-[1400px]">
-      <QuickAccessNav
-        activeTab="eventos"
-        onNavigate={onNavigate}
-      />
+      <QuickAccessNav activeTab="eventos" onNavigate={onNavigate} />
 
       <div className="mb-6">
-        <div className="min-w-0">
+        <div className="mx-auto w-full max-w-4xl space-y-1">
           <h1
             className="text-foreground"
             style={{
@@ -309,10 +300,7 @@ export function ProximosEventos({
 
       {cargando && (
         <div className="flex items-center justify-center rounded-2xl border border-border bg-card py-16">
-          <Loader2
-            size={25}
-            className="animate-spin text-muted-foreground"
-          />
+          <Loader2 size={25} className="animate-spin text-muted-foreground" />
         </div>
       )}
 
@@ -321,15 +309,9 @@ export function ProximosEventos({
           role="alert"
           className="rounded-2xl border border-border bg-card p-7 text-center"
         >
-          <AlertTriangle
-            size={24}
-            className="mx-auto mb-2 text-destructive"
-          />
+          <AlertTriangle size={24} className="mx-auto mb-2 text-destructive" />
 
-          <p
-            className="text-destructive"
-            style={{ fontSize: "0.9rem" }}
-          >
+          <p className="text-destructive" style={{ fontSize: "0.9rem" }}>
             {error}
           </p>
 
@@ -342,7 +324,6 @@ export function ProximosEventos({
           </button>
         </div>
       )}
-
       {!cargando && !error && vacia && (
         <div className="rounded-2xl border border-border bg-card p-7 text-center sm:p-10">
           <div
@@ -355,10 +336,7 @@ export function ProximosEventos({
             <CalendarDays size={38} />
           </div>
 
-          <h2
-            className="mt-5 text-foreground"
-            style={{ fontSize: "1.15rem" }}
-          >
+          <h2 className="mt-5 text-foreground" style={{ fontSize: "1.15rem" }}>
             ¡Todo al día!
           </h2>
 
@@ -379,8 +357,7 @@ export function ProximosEventos({
               onClick={onSolicitar}
               className="min-h-11 rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-md active:scale-[0.98]"
               style={{
-                background:
-                  "linear-gradient(135deg, #1E3A8A, #3B82F6)",
+                background: "linear-gradient(135deg, #1E3A8A, #3B82F6)",
               }}
             >
               + Solicitar tutoría
@@ -398,7 +375,7 @@ export function ProximosEventos({
       )}
 
       {!cargando && !error && !vacia && (
-        <div className="space-y-3">
+        <div className="mx-auto w-full max-w-4xl space-y-3">
           {proximas.length > 0 &&
             proximas.map((evento) => (
               <TarjetaEvento
@@ -414,7 +391,6 @@ export function ProximosEventos({
               <p className="pt-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground">
                 Pendientes de realizar
               </p>
-
               {vencidas.map((evento) => (
                 <TarjetaEvento
                   key={evento.id}
@@ -425,17 +401,18 @@ export function ProximosEventos({
               ))}
             </>
           )}
-        </div>
-      )}
 
-      {!cargando && !error && !vacia && (
-        <button
-          type="button"
-          onClick={onVerHistorial}
-          className="mt-5 min-h-11 rounded-xl border border-[#118AB2] px-4 py-2.5 text-sm font-medium text-[#118AB2] transition-all hover:bg-[#118AB2] hover:text-white"
-        >
-          Ver todas mis tutorías
-        </button>
+          {/* Botón alineado con las tarjetas */}
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={onVerHistorial}
+              className="min-h-11 rounded-xl border border-[#118AB2] px-4 py-2.5 text-sm font-medium text-[#118AB2] transition-all hover:bg-[#118AB2] hover:text-white"
+            >
+              Ver todas mis tutorías
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
